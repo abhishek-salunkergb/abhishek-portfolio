@@ -9,14 +9,8 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
-import { RecruiterModal } from "./recruiter/RecruiterModal";
-import { RoleSwitcher } from "./recruiter/RoleSwitcher";
-import { ProofOfWork } from "./recruiter/ProofOfWork";
-import { CaseStudy } from "./recruiter/CaseStudy";
-import { BreakMyProject } from "./recruiter/BreakMyProject";
-import { ProjectQA } from "./recruiter/ProjectQA";
-import { TechChallenge } from "./recruiter/TechChallenge";
-import { WhyInterviewMe } from "./recruiter/WhyInterviewMe";
+import { RecruiterHubModal, HubTabId } from "./recruiter/RecruiterHubModal";
+import { RecruiterShowcase } from "./recruiter/RecruiterShowcase";
 
 const TechStack = lazy(() => import("./TechStack"));
 
@@ -24,8 +18,14 @@ const MainContainer = ({ children }: PropsWithChildren) => {
   const [isDesktopView, setIsDesktopView] = useState<boolean>(
     window.innerWidth > 1024
   );
-  const [recruiterModalOpen, setRecruiterModalOpen] = useState<boolean>(false);
+  const [hubModalOpen, setHubModalOpen] = useState<boolean>(false);
+  const [hubInitialTab, setHubInitialTab] = useState<HubTabId>("60s");
   const [activeRoleId, setActiveRoleId] = useState<string>("all");
+
+  const openHub = (tab: HubTabId = "60s") => {
+    setHubInitialTab(tab);
+    setHubModalOpen(true);
+  };
 
   useEffect(() => {
     const resizeHandler = () => {
@@ -42,33 +42,27 @@ const MainContainer = ({ children }: PropsWithChildren) => {
   return (
     <div className="container-main">
       <Cursor />
-      <Navbar onOpenRecruiter={() => setRecruiterModalOpen(true)} />
+      <Navbar onOpenRecruiter={() => openHub("60s")} />
       <SocialIcons />
-      <RecruiterModal
-        isOpen={recruiterModalOpen}
-        onClose={() => setRecruiterModalOpen(false)}
+      <RecruiterHubModal
+        isOpen={hubModalOpen}
+        onClose={() => setHubModalOpen(false)}
+        initialTab={hubInitialTab}
+        activeRoleId={activeRoleId}
+        onSelectRole={setActiveRoleId}
       />
 
       {isDesktopView && children}
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <div className="container-main">
-            <Landing onOpenRecruiter={() => setRecruiterModalOpen(true)}>
+            <Landing onOpenRecruiter={() => openHub("60s")}>
               {!isDesktopView && children}
             </Landing>
-            <RoleSwitcher
-              activeRoleId={activeRoleId}
-              onSelectRole={setActiveRoleId}
-            />
             <About />
             <WhatIDo />
             <Career />
-            <ProofOfWork />
-            <CaseStudy />
-            <BreakMyProject />
-            <TechChallenge />
-            <ProjectQA />
-            <WhyInterviewMe />
+            <RecruiterShowcase onOpenTab={(tab) => openHub(tab)} />
             <Work activeRoleId={activeRoleId} />
             {isDesktopView && (
               <Suspense fallback={<div>Loading....</div>}>

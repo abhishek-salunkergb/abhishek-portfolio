@@ -40,9 +40,9 @@ const Landing = ({ children, onOpenRecruiter }: LandingProps) => {
                 </button>
               )}
               <a
-                href="#proof-of-work"
+                href="#recruiter-hub"
                 className="landing-proof-cta nav-smooth-link"
-                data-href="#proof-of-work"
+                data-href="#recruiter-hub"
                 data-cursor="disable"
               >
                 <span>Proof of Work</span>

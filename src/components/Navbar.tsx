@@ -32,7 +32,7 @@ const Navbar = ({ onOpenRecruiter }: NavbarProps) => {
     smoother.paused(true);
 
     const setupSmoothLinks = () => {
-      let links = document.querySelectorAll(".header ul a, .nav-smooth-link");
+      let links = document.querySelectorAll(".header ul a");
       links.forEach((elem) => {
         let element = elem as HTMLAnchorElement;
         element.addEventListener("click", (e) => {
@@ -75,7 +75,7 @@ const Navbar = ({ onOpenRecruiter }: NavbarProps) => {
               title="Open 60-second recruiter executive view"
             >
               <MdFlashOn className="nav-flash-icon" />
-              <span>Recruiter View (60s)</span>
+              <span>Recruiter Hub (60s)</span>
             </button>
           )}
         </div>
@@ -96,13 +96,8 @@ const Navbar = ({ onOpenRecruiter }: NavbarProps) => {
               </a>
             </li>
             <li>
-              <a data-href="#proof-of-work" href="#proof-of-work">
-                <HoverLinks text="PROOF" />
-              </a>
-            </li>
-            <li>
-              <a data-href="#case-study" href="#case-study">
-                <HoverLinks text="CASE STUDY" />
+              <a data-href="#recruiter-hub" href="#recruiter-hub">
+                <HoverLinks text="EVIDENCE" />
               </a>
             </li>
             <li>

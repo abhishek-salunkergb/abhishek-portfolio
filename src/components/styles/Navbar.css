@@ -1,0 +1,163 @@
+.header {
+  display: flex;
+  max-width: var(--cMaxWidth);
+  width: var(--cWidth);
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0px;
+  margin-bottom: -100px;
+  box-sizing: border-box;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  z-index: 9999;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 2;
+}
+
+.navbar-title {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.navbar-recruiter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(194, 164, 255, 0.12);
+  border: 1px solid rgba(194, 164, 255, 0.35);
+  color: #c2a4ff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: inherit;
+  box-shadow: 0 0 14px rgba(194, 164, 255, 0.15);
+}
+
+.navbar-recruiter-btn:hover {
+  background: linear-gradient(135deg, #c2a4ff, #a855f7);
+  color: #0b080c;
+  border-color: #c2a4ff;
+  box-shadow: 0 0 20px rgba(194, 164, 255, 0.4);
+  transform: scale(1.03);
+}
+
+.nav-flash-icon {
+  font-size: 14px;
+  color: #fbbf24;
+}
+
+.navbar-connect {
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+  color: #a8a29e;
+  z-index: 1;
+}
+
+.navbar-connect:hover {
+  color: #c2a4ff;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  z-index: 2;
+}
+
+.header ul {
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  column-gap: 20px;
+  align-items: center;
+}
+
+.header ul li {
+  margin-left: 0px;
+  letter-spacing: 1px;
+  color: #ccc;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.navbar-resume-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #eae5ec;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.navbar-resume-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #c2a4ff;
+  color: #fff;
+}
+
+.nav-resume-icon {
+  font-size: 14px;
+  color: #38bdf8;
+}
+
+@media only screen and (max-width: 900px) {
+  .header ul {
+    display: none;
+  }
+  .navbar-connect {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 901px) and (max-width: 1250px) {
+  .navbar-connect {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1251px) {
+  .navbar-connect {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .header {
+    padding: 24px 0px;
+  }
+  .header ul {
+    column-gap: 28px;
+    font-size: 14px;
+  }
+  .navbar-title {
+    font-size: 18px;
+  }
+}
