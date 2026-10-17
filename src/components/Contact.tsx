@@ -92,7 +92,7 @@ const Contact = () => {
               Designed and Developed <br /> by <span>{profile.fullName}</span>
             </h2>
             <h5>
-              <MdCopyright /> 2026
+              <MdCopyright /> 2026 {profile.fullName}. All Rights Reserved.
             </h5>
           </div>
         </div>

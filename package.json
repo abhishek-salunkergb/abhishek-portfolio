@@ -1,7 +1,9 @@
 {
-  "name": "moncy-portfolio",
+  "name": "abhishek-salunke-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "author": "Abhishek Salunke <abhisheksalunke7387@gmail.com>",
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
