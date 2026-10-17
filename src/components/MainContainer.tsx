@@ -71,7 +71,11 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <RecruiterShowcase onOpenTab={(tab) => openHub(tab)} />
             <Work activeRoleId={activeRoleId} />
             {isDesktopView && (
-              <Suspense fallback={<div>Loading....</div>}>
+              <Suspense
+                fallback={
+                  <div style={{ height: "100vh", width: "100%" }} />
+                }
+              >
                 <TechStack />
               </Suspense>
             )}

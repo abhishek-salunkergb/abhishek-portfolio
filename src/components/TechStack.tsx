@@ -3,6 +3,7 @@ import { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { EffectComposer, N8AO } from "@react-three/postprocessing";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   BallCollider,
   Physics,
@@ -139,27 +140,17 @@ const TechStack = () => {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const workElem = document.getElementById("work");
-      if (!workElem) return;
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = workElem.getBoundingClientRect().top;
-      setIsActive(scrollY > threshold);
-    };
-    document.querySelectorAll(".header a").forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
-        const interval = setInterval(() => {
-          handleScroll();
-        }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 1000);
-      });
+    ScrollTrigger.refresh();
+
+    const trigger = ScrollTrigger.create({
+      trigger: ".techstack",
+      start: "top 85%",
+      onEnter: () => setIsActive(true),
+      onLeaveBack: () => setIsActive(false),
     });
-    window.addEventListener("scroll", handleScroll);
+
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      trigger.kill();
     };
   }, []);
 

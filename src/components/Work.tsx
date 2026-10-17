@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import gsap from "gsap";
@@ -5,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { portfolioData, ProjectItem } from "../data/portfolioData";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 interface WorkProps {
   activeRoleId?: string;
@@ -16,42 +17,30 @@ const Work = ({ activeRoleId }: WorkProps) => {
 
   const activeCategory = roleCategories.find((cat) => cat.id === activeRoleId);
 
-  const displayedProjects: ProjectItem[] = [...projects].sort((a, b) => {
-    if (!activeCategory || !activeCategory.projectOrder) return 0;
-    const idxA = activeCategory.projectOrder.indexOf(a.title);
-    const idxB = activeCategory.projectOrder.indexOf(b.title);
-    const scoreA = idxA === -1 ? 999 : idxA;
-    const scoreB = idxB === -1 ? 999 : idxB;
-    return scoreA - scoreB;
-  });
+  const displayedProjects: ProjectItem[] = useMemo(() => {
+    return [...projects].sort((a, b) => {
+      if (!activeCategory || !activeCategory.projectOrder) return 0;
+      const idxA = activeCategory.projectOrder.indexOf(a.title);
+      const idxB = activeCategory.projectOrder.indexOf(b.title);
+      const scoreA = idxA === -1 ? 999 : idxA;
+      const scoreB = idxB === -1 ? 999 : idxB;
+      return scoreA - scoreB;
+    });
+  }, [projects, activeCategory]);
 
   useGSAP(() => {
-    let translateX: number = 0;
-
-    function setTranslateX() {
-      const box = document.getElementsByClassName("work-box");
-      if (!box || box.length === 0) return;
-      const workContainer = document.querySelector(".work-container");
-      if (!workContainer || !box[0].parentElement) return;
-
-      const rectLeft = workContainer.getBoundingClientRect().left;
-      const rect = box[0].getBoundingClientRect();
-      const parentWidth = box[0].parentElement.getBoundingClientRect().width;
-      let padding: number =
-        parseInt(window.getComputedStyle(box[0]).padding || "0") / 2;
-      translateX = Math.max(
-        0,
-        rect.width * box.length - (rectLeft + parentWidth) + padding
-      );
+    function getTranslateX() {
+      const flex = document.querySelector(".work-flex") as HTMLElement;
+      if (!flex) return 0;
+      // Scroll width minus visible viewport plus trailing margin
+      return Math.max(0, flex.scrollWidth - window.innerWidth + 120);
     }
 
-    setTranslateX();
-
-    let timeline = gsap.timeline({
+    const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${translateX}`, // Use actual scroll width
+        end: () => `+=${getTranslateX()}`,
         scrub: true,
         pin: true,
         id: "work",
@@ -60,7 +49,7 @@ const Work = ({ activeRoleId }: WorkProps) => {
     });
 
     timeline.to(".work-flex", {
-      x: () => -translateX,
+      x: () => -getTranslateX(),
       ease: "none",
     });
 
@@ -68,20 +57,18 @@ const Work = ({ activeRoleId }: WorkProps) => {
     const handleResize = () => {
       clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(() => {
-        setTranslateX();
         ScrollTrigger.refresh();
       }, 150);
     };
     window.addEventListener("resize", handleResize);
 
-    // Clean up
     return () => {
       clearTimeout(resizeTimer);
       window.removeEventListener("resize", handleResize);
       timeline.kill();
-      ScrollTrigger.getById("work")?.kill();
+      ScrollTrigger.getById("work")?.kill(true);
     };
-  }, [displayedProjects]);
+  }, []); // Run ONCE on mount: never destroy pin spacer on re-renders!
 
   return (
     <div className="work-section" id="work">
