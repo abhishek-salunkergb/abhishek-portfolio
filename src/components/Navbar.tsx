@@ -32,7 +32,9 @@ const Navbar = ({ onOpenRecruiter }: NavbarProps) => {
     smoother.paused(true);
 
     const setupSmoothLinks = () => {
-      let links = document.querySelectorAll(".header ul a");
+      let links = document.querySelectorAll(
+        ".header ul a, a.nav-smooth-link, [data-href]"
+      );
       links.forEach((elem) => {
         let element = elem as HTMLAnchorElement;
         element.addEventListener("click", (e) => {
