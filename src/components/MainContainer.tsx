@@ -28,16 +28,22 @@ const MainContainer = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
-    const resizeHandler = () => {
-      setSplitText();
-      setIsDesktopView(window.innerWidth > 1024);
+    let timeoutId: number;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        setIsDesktopView(window.innerWidth > 1024);
+        setSplitText();
+      }, 150);
     };
-    resizeHandler();
-    window.addEventListener("resize", resizeHandler);
+
+    setSplitText();
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener("resize", resizeHandler);
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", handleResize);
     };
-  }, [isDesktopView]);
+  }, []);
 
   return (
     <div className="container-main">

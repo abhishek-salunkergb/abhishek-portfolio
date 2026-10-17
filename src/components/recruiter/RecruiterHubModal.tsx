@@ -22,6 +22,8 @@ import { BreakMyProject } from "./BreakMyProject";
 import { TechChallenge } from "./TechChallenge";
 import { ProjectQA } from "./ProjectQA";
 import { WhyInterviewMe } from "./WhyInterviewMe";
+import { smoother } from "../Navbar";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./styles/RecruiterHubModal.css";
 
 export type HubTabId =
@@ -67,6 +69,11 @@ export const RecruiterHubModal = ({
       return;
     }
 
+    document.body.style.overflow = "hidden";
+    if (smoother) {
+      smoother.paused(true);
+    }
+
     const interval = setInterval(() => {
       setSecondsRemaining((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
@@ -79,6 +86,11 @@ export const RecruiterHubModal = ({
     return () => {
       clearInterval(interval);
       window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+      if (smoother) {
+        smoother.paused(false);
+      }
+      ScrollTrigger.refresh();
     };
   }, [isOpen, onClose]);
 

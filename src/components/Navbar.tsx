@@ -54,9 +54,19 @@ const Navbar = ({ onOpenRecruiter }: NavbarProps) => {
 
     setupSmoothLinks();
 
-    window.addEventListener("resize", () => {
-      ScrollSmoother.refresh(true);
-    });
+    let resizeTimer: number;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 150);
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (

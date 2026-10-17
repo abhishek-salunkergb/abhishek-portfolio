@@ -64,14 +64,19 @@ const Work = ({ activeRoleId }: WorkProps) => {
       ease: "none",
     });
 
+    let resizeTimer: number;
     const handleResize = () => {
-      setTranslateX();
-      ScrollTrigger.refresh();
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        setTranslateX();
+        ScrollTrigger.refresh();
+      }, 150);
     };
     window.addEventListener("resize", handleResize);
 
     // Clean up
     return () => {
+      clearTimeout(resizeTimer);
       window.removeEventListener("resize", handleResize);
       timeline.kill();
       ScrollTrigger.getById("work")?.kill();
